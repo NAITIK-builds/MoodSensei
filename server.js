@@ -1,39 +1,27 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const { sequelize, User } = require('./models/user');
-const path = require('path');
-
 const app = express();
-const PORT = 3000;
+const path = require('path');
+const { sequelize } = require('./models/user');
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(__dirname));
+// Middleware
+app.use(express.static(__dirname)); // Serve static files like .html, .css, .js
 
-// Signup
-app.post('/signup', async (req, res) => {
-  const { username, password } = req.body;
-  try {
-    await User.create({ username, password });
-    res.send("Signup successful!");
-  } catch (error) {
-    res.status(400).send("User already exists or error occurred.");
-  }
-});
+// Body parser
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Login
-app.post('/login', async (req, res) => {
-  const { username, password } = req.body;
-  const user = await User.findOne({ where: { username, password } });
-  if (user) {
-    res.redirect('/mood.html');
-  } else {
-    res.status(401).send("Invalid credentials.");
-  }
-});
-
-// Start server
+// Database connection
 sequelize.sync().then(() => {
-  app.listen(PORT, () => {
-    console.log(`✅ Server running at http://localhost:${PORT}`);
-  });
+  console.log('Database connected');
+});
+
+// Route to serve mood.html by default
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'mood.html'));
+});
+
+// Start the server
+const PORT = 3000;
+app.listen(PORT, () => {
+  console.log(`✅ Server running at http://localhost:${PORT}`);
 });

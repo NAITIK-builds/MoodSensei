@@ -18,11 +18,14 @@
     "url": "https://github.com/NAITIK-builds/MoodSensei/issues"
   },
   "homepage": "https://github.com/NAITIK-builds/MoodSensei#readme",
-  "description": "",
   "dependencies": {
+    "bcrypt": "^6.0.0",
+    "bcryptjs": "^3.0.2",
     "body-parser": "^2.2.0",
     "express": "^5.1.0",
     "sequelize": "^6.37.7",
     "sqlite3": "^5.1.7"
-  }
+  },
+  "devDependencies": {},
+  "description": ""
 }

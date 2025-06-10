@@ -1,20 +1,18 @@
 const { Sequelize, DataTypes } = require('sequelize');
-
 const sequelize = new Sequelize({
   dialect: 'sqlite',
-  storage: 'database.sqlite'
+  storage: './database.sqlite' // This file stores your data
 });
 
 const User = sequelize.define('User', {
   username: {
     type: DataTypes.STRING,
-    allowNull: false,
     unique: true
   },
-  password: {
-    type: DataTypes.STRING,
-    allowNull: false
-  }
+  password: DataTypes.STRING,
+  mood: DataTypes.STRING
 });
+
+sequelize.sync(); // Creates the table if it doesn't exist
 
 module.exports = { sequelize, User };
